@@ -17,10 +17,17 @@ namespace Casino
 
             //Felhasználó tippjeinek bekérése (Szám mezők)
             Dictionary<int, int> userBets = new Dictionary<int, int>();
-            do
+
+            Console.WriteLine("Szeretnél számokra fogadni? (I/N)");
+            String numbers = Console.ReadLine();
+            if(numbers == "I")
             {
-                userBets = GetUserBets(Program.balance);
-            }while(userBets == null);
+                do
+                {
+                    userBets = GetUserBets(Program.balance);
+                }while(userBets == null);
+            }
+            
 
             //Felhasznéló tippjeinek bekérése (Egyéb mezők)
             Dictionary<String, int> userBetsOther = new Dictionary<String, int>();
@@ -38,12 +45,13 @@ namespace Casino
             //Szám tulajdonságainak meghatározása
             Number number = new Number(r);
 
-            Console.WriteLine(number.ToString());
+            Console.WriteLine(number.ToFormattedString());
 
             //Nyeremény kiszámítása
             int prize = CalculatePrize(Program.balance, userBets, userBetsOther, number);
-            Console.WriteLine("A nyereményed: " + prize);
 
+
+            Console.WriteLine("Az egyenleged a játék után: "+prize);
 
             return prize;
 
@@ -213,11 +221,6 @@ namespace Casino
             r.Add(d, dValue);
             r.Add(color, colorValue);
 
-            foreach (KeyValuePair<String,int> kvp in r)
-            {
-                Console.WriteLine("Key: "+kvp.Key+" Value: "+kvp.Value);
-            }
-
             return r;
         }
 
@@ -236,11 +239,52 @@ namespace Casino
         {
             int newBalance = 0;
 
+            int remaining = balance - userBets.Sum(x => x.Value) - userBetsOther.Sum(x => x.Value);
+
+            /*Console.WriteLine("Ezekre fogadtál:");
+            
+            foreach(KeyValuePair<String, int> pair in userBetsOther)
+            {
+                Console.WriteLine("Key: "+pair.Key+" Value: "+pair.Value);
+            }*/
+
             if(userBets.ContainsKey(number.Value)) newBalance += userBets[number.Value] * 36;
 
-            
+            if (userBetsOther.ContainsKey(number.Parity))
+            {
+                Console.WriteLine("Eltaláltad a paritást");
+                newBalance += userBetsOther[number.Parity] * 2;
+            }
 
-            
+            if (userBetsOther.ContainsKey(number.Column))
+            {
+                Console.WriteLine("Eltaláltad az oszlopot");
+                newBalance += userBetsOther[number.Column] * 3;
+            }
+
+            if (userBetsOther.ContainsKey(number.Half))
+            {
+                Console.WriteLine("Eltaláltad a felet");
+                newBalance += userBetsOther[number.Half] * 2;
+            }
+
+            if (userBetsOther.ContainsKey(number.Dozen))
+            {
+                Console.WriteLine("Eltaláltad a tucatot");
+                newBalance += userBetsOther[number.Dozen] * 3;
+            }
+
+            if (userBetsOther.ContainsKey(number.Color))
+            {
+                Console.WriteLine("Eltaláltad a színt");
+                newBalance += userBetsOther[number.Color] * 2;
+            }
+
+
+            Console.WriteLine("A nyereméyned: "+newBalance);
+
+            newBalance += remaining;
+
             return newBalance;
         }
 
