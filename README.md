@@ -7,6 +7,6 @@ Választható játékok:
 
 -Rulett
 
--Black Jack
+-Black Jack (Egyelőre hiányos)
 
 Készítette: Szabó Zsolt
