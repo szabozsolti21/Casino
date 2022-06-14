@@ -7,7 +7,7 @@ Választható játékok:
 
 -Rulett
 
--Black Jack
+-Black Jack (Egyelőre hiányos)
 
 A program nem minden esetben kezeli le a bemenet helyességét.
 
