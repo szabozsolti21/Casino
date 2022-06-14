@@ -10,9 +10,9 @@ namespace Casino
     {
         public static int Play()
         {
-            Console.WriteLine("A rulettet választottad!");
+            
 
-            Console.WriteLine("Az egyenleged: " + Program.balance);
+            Console.WriteLine("\nAz egyenleged: " + Program.balance);
 
 
             //Felhasználó tippjeinek bekérése (Szám mezők)

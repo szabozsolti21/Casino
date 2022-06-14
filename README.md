@@ -9,4 +9,6 @@ Választható játékok:
 
 -Black Jack
 
+A program nem minden esetben kezeli le a bemenet helyességét.
+
 Készítette: Szabó Zsolt

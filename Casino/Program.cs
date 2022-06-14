@@ -20,11 +20,14 @@ namespace Casino
                 c = Console.ReadLine();
                 if (c == "1")
                 {
+                    Console.WriteLine("A Rulettet választottad!");
                     balance = Roulette.Play();
                 }
                 if (c == "2")
                 {
-                    Console.WriteLine("Jelenleg nem elérhető");
+                    Console.WriteLine("A BlackJack-et választottad!");
+                    balance = BlackJack.Play();
+                    
                 }
             }while (!(c == "1" || c == "2"));
 
