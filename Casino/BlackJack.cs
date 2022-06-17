@@ -20,7 +20,7 @@ namespace Casino
                               "CK" , "DK" , "HK" , "SK" ,
                               "CQ" , "DQ" , "HQ" , "SQ" ,
                               "CJ" , "DJ" , "HJ" , "SJ" ,
-                              "C10" , "D10" , "H10" , "S10" ,
+                              "CT" , "DT" , "HT" , "ST" ,
                               "C9" , "D9" , "H9" , "S9" ,
                               "C8" , "D8" , "H8" , "S8" ,
                               "C7" , "D7" , "H7" , "S7" ,
@@ -33,7 +33,7 @@ namespace Casino
                               "CK" , "DK" , "HK" , "SK" ,
                               "CQ" , "DQ" , "HQ" , "SQ" ,
                               "CJ" , "DJ" , "HJ" , "SJ" ,
-                              "C10" , "D10" , "H10" , "S10" ,
+                              "CT" , "DT" , "HT" , "ST" ,
                               "C9" , "D9" , "H9" , "S9" ,
                               "C8" , "D8" , "H8" , "S8" ,
                               "C7" , "D7" , "H7" , "S7" ,
@@ -52,10 +52,18 @@ namespace Casino
 
             List<String> dealerHand = new List<String>();
 
+
+            // Ha ez 1 akkor a játék megkérdezi szeretnél e még egy kört
             int f = 0;
 
             while(true)
             {
+                if(prize == 0)
+                {
+                    Console.WriteLine("\nAz egyenleged elfogyott! Köszönjük a játékot!");
+                    return prize;
+                }
+
                 if (f != 0)
                 {
                     Console.WriteLine("\nSzeretnél játszani még  egy kört?\n  (I: Igen / N: Nem)\n");
@@ -81,7 +89,8 @@ namespace Casino
                 int bet = int.Parse(betAsString);
                 if(bet > prize)
                 {
-                    Console.WriteLine("A tét meghaladja az egyenleged!\n");
+                    Console.WriteLine("A tét meghaladja az egyenleged!, Kérlek add meg újra!");
+                    f = 0;
                     continue;
                 }
                 prize -= bet;
@@ -350,25 +359,24 @@ namespace Casino
         {
             int sum = 0;
 
+
+
             foreach(String card in hand)
             {
+                //Ha számos lap
                 if (Char.IsDigit(card[1]))
                 {
                     sum+= int.Parse(card.Substring(1));
                 }
-                else
+                //Ha figurás lap
+                if(card[1] == 'J' || card[1] == 'Q' || card[1] == 'K' || card[1] == 'T')
                 {
-                    if(sum == 10 && card[1] == 'A')
-                    {
-                        sum += 11;
-                        break;
-                    }
-                    if(sum == 20 && card[1] == 'A')
-                    {
-                        sum++;
-                        break;
-                    }
                     sum += 10;
+                }
+                if(card[1] == 'A')
+                {
+                    if (sum <= 10) sum += 11;
+                    else sum ++;
                 }
             }
 
